@@ -12,22 +12,22 @@ def load_test_image(file_dir, fid):
     if os.path.exists(os.path.join(file_dir, '{}-throughput.npy'.format(fid))):
         I = np.load(os.path.join(file_dir, '{}-throughput.npy'.format(fid)))
     else:
-        I = False
-    
+        I = None
+
     if os.path.exists(os.path.join(file_dir, '{}-dx.npy'.format(fid))):
         dx = np.load(os.path.join(file_dir, '{}-dx.npy'.format(fid)))
     else:
-        dx = False
+        dx = None
 
     if os.path.exists(os.path.join(file_dir, '{}-dy.npy'.format(fid))):
         dy = np.load(os.path.join(file_dir, '{}-dy.npy'.format(fid)))
     else:
-        dy = False
+        dy = None
 
     if os.path.exists(os.path.join(file_dir, '{}-feature.npy'.format(fid))):
         feature = np.load(os.path.join(file_dir, '{}-feature.npy'.format(fid)))
     else:
-        feature = False
+        feature = None
 
     return I, dx, dy, feature
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         for i in range(env.spp_l, env.spp_r + 1):
             test_fn = '{}-{}'.format(scene, 2 ** i)
             I, dx, dy, feature = load_test_image(file_dir, test_fn)
-            if isinstance(I, bool):
+            if (I is None) or (dx is None) or (dy is None) or (feature is None):
                 continue
             r = I.shape[0]
             c = I.shape[1]
